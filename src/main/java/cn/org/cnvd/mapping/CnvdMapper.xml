@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.org.cnvd.dao.CnvdDao">
+	<resultMap type="cn.org.cnvd.pojo.Cnvd" id="cnvd">
+		<id property="id" column="id" jdbcType="NUMERIC"/>
+		<result property="cnvdid" column="cnvdid" jdbcType="VARCHAR"/>
+		<result property="cnvdTitle" column="cnvdtitle" jdbcType="VARCHAR"/>
+		<result property="bugSubmitter" column="bugsubmitter" jdbcType="VARCHAR"/>
+		<result property="publishDate" column="publishdate" jdbcType="VARCHAR"/>
+		<result property="harmLevel" column="harmlevel" jdbcType="VARCHAR"/>
+		<result property="harmDescribe" column="harmdescribe" jdbcType="VARCHAR"/>
+		<result property="bugScore" column="bugscore" jdbcType="VARCHAR"/>
+		<result property="effectProduct" column="effectproduct" jdbcType="VARCHAR"/>
+		<result property="bugtraqId" column="bugtraqid" jdbcType="VARCHAR"/>
+		<result property="cveId" column="cveid" jdbcType="VARCHAR"/>
+		<result property="bugDescribe" column="bugdescribe" jdbcType="LONGVARCHAR"/>
+		<result property="referenceLink" column="referencelink" jdbcType="VARCHAR"/>
+		<result property="bugSolutions" column="bugsolutions" jdbcType="VARCHAR"/>
+		<result property="bugFinder" column="bugfinder" jdbcType="VARCHAR"/>
+		<result property="vendorPatches" column="vendorpatches" jdbcType="VARCHAR"/>
+		<result property="validateInfo" column="validateinfo" jdbcType="VARCHAR"/>
+		<result property="submittDate" column="submittdate" jdbcType="VARCHAR"/>
+		<result property="includedDate" column="includeddate" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="updatetime" jdbcType="VARCHAR"/>
+		<result property="bugAccessory" column="bugaccessory" jdbcType="VARCHAR"/>
+		<result property="timedate" column="timedate" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<!-- 批量插入操作 -->
+	<insert id="addCnvdBatch">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `webmagic`.`cnvd` (`cnvdid`,`cnvdtitle`,`bugsubmitter``publishdate`,`harmlevel`,`harmdescribe`,
+			`bugscore`,`effectproduct`,`bugtraqid`,`cveid`,`bugdescribe`,`referencelink`,`bugsolutions`,`bugfinder`,
+			`vendorpatches`,`validateinfo`,`submittdate`,`includeddate`,`updatetime`,`bugaccessory`) 
+		VALUES 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.cnvdId},
+			#{item.cnvdtitle},
+			#{item.bugSubmitter},
+			#{item.publishDate},
+			#{item.harmLevel},
+			#{item.harmDescribe},
+			#{item.bugscore},
+			#{item.effectProduct},
+			#{item.bugtraqId},
+			#{item.cveId},
+			#{item.bugDescribe},
+			#{item.referenceLink},
+			#{item.bugSolutions},
+			#{item.bugFinder},
+			#{item.vendorPatches},
+			#{item.validateInfo},
+			#{item.submittDate},
+			#{item.includedDate},
+			#{item.updateTime},
+			#{item.bugAccessory}
+			)
+		</foreach>
+	</insert>
+
+</mapper>
+
+

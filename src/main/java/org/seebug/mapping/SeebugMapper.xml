@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.seebug.dao.SeebugDao">
+	<resultMap type="org.seebug.pojo.Seebug" id="seebug">
+		<id property="id" column="id" jdbcType="NUMERIC"/>
+		<result property="bugId" column="bugid" jdbcType="VARCHAR"/>
+		<result property="bugName" column="bugname" jdbcType="VARCHAR"/>
+		<result property="bugFindDate" column="bugfinddate" jdbcType="VARCHAR"/>
+		<result property="bugSubmitDate" column="bugsubmitdate" jdbcType="VARCHAR"/>
+		<result property="bugLevel" column="buglevel" jdbcType="NUMERIC"/>
+		<result property="bugType" column="bugtype" jdbcType="VARCHAR"/>
+		<result property="cveId" column="cveid" jdbcType="VARCHAR"/>
+		<result property="cnnvdId" column="cnnvdid" jdbcType="VARCHAR"/>
+		<result property="cnvdId" column="cnvdid" jdbcType="VARCHAR"/>
+		<result property="bugAuthor" column="bugauthor" jdbcType="VARCHAR"/>
+		<result property="bugSubmitter" column="bugsubmitter" jdbcType="VARCHAR"/>
+		<result property="bugOutline" column="bugoutline" jdbcType="LONGVARCHAR"/>
+		<result property="zoomEyeDork" column="zoomeyedork" jdbcType="VARCHAR"/>
+		<result property="affectsComponent" column="affectscomponent" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 批量插入操作 -->
+	<insert id="addSeebugBatch">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `webmagic`.`seebug` (`bugid`,`bugname`,`bugfinddate`,`bugsubmitdate`,`buglevel`,`bugtype`,`cveid`,`cnnvdid`,`cnvdid`,`bugauthor`,`bugsubmitter`,`bugoutline` ,`zoomeyedork`,`affectscomponent`) 
+		VALUES 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.bugId},
+			#{item.bugName},
+			#{item.bugFindDate},
+			#{item.bugSubmitDate},
+			#{item.bugLevel},
+			#{item.bugType},
+			#{item.cveId},
+			#{item.cnnvdId},
+			#{item.cnvdId},
+			#{item.bugAuthor},
+			#{item.bugSubmitter},
+			#{item.bugOutline},
+			#{item.zoomEyeDork},
+			#{item.affectsComponent}
+			)
+		</foreach>
+	</insert>
+
+</mapper>
+
+

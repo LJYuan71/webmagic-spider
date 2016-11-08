@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd
+	">
+	<!-- 引入属性文件 -->
+	<task:executor id="executor" pool-size="5" />  
+	<task:scheduler id="scheduler" pool-size="10" />  
+	<!-- 定时器开关-->
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+	<!-- 自动扫描定时器的包名 -->  
+	<context:component-scan base-package="io.webmagic.common.*" /> 
+	
+	<bean id="aaa" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	 
+	<!-- 配置数据源-->  
+	<!-- 
+     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" /> 
+		<property name="username" value="${jdbc.username}" /> 
+		<property name="password" value="${jdbc.password}" /> 
+		<property name="initialSize" value="${jdbc.initialSize}" /> 
+	    <property name="minIdle" value="${jdbc.minIdle}" /> 
+	    <property name="maxActive" value="${jdbc.maxActive}" /> 
+	    <property name="maxWait" value="${jdbc.maxWait}" /> 
+	    <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" /> 
+	    <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" /> 
+	    <property name="validationQuery" value="${jdbc.validationQuery}" /> 
+	    <property name="testWhileIdle" value="${jdbc.testWhileIdle}" /> 
+	    <property name="testOnBorrow" value="${jdbc.testOnBorrow}" /> 
+	    <property name="testOnReturn" value="${jdbc.testOnReturn}" /> 
+	    <property name="removeAbandoned" value="${jdbc.removeAbandoned}" /> 
+	    <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" /> 
+	    <property name="filters" value="${jdbc.filters}" />
+		<property name="logAbandoned" value="true" />
+		<property name="proxyFilters">
+	        <list>
+	            <ref bean="log-filter"/>
+	        </list>
+	    </property>
+	</bean>
+	 -->
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+	     <property name="driverClassName">  
+	         <value>org.gjt.mm.mysql.Driver</value>  
+	     </property>  
+	     <property name="url">  
+	         <value>jdbc:mysql://localhost:3306/webmagic?useUnicode=true&amp;characterEncoding=UTF-8</value>  
+	     </property>  
+	     <property name="username">  
+	         <value>root</value>  
+	     </property>  
+	     <property name="password">  
+	         <value>123456</value>  
+	     </property>  
+	 </bean>  
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+	     <property name="dataSource" ref="dataSource" />  
+	     <property name="configLocation" value="classpath:mybatis-config.xml"></property>  
+	 </bean>  
+	 <!-- -->
+	 <bean id="seebugDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+	     <property name="mapperInterface" value="org.seebug.dao.SeebugDao"></property>  
+	     <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
+	 </bean> 
+	 <bean id="cnvdDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+	     <property name="mapperInterface" value="cn.org.cnvd.dao.CnvdDao"></property>  
+	     <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
+	 </bean> 
+	  
+	 <bean id="cnnvdDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+	     <property name="mapperInterface" value="cn.org.cnnvd.dao.CnnvdDao"></property>  
+	     <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
+	 </bean>
+	
+</beans>
