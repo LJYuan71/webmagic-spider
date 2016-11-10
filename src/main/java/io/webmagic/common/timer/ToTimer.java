@@ -31,8 +31,8 @@ public class ToTimer {
 	
 	private static final Logger log = Logger.getLogger(ToTimer.class);
 	
-	@Scheduled(cron = "0 1 11 * * ? ")
-	public void runSeebug(){
+	//@Scheduled(cron = "0 30 11 * * ? ")
+	public static void main(String[] args){
 		Timestamp startTime = new Timestamp(System.currentTimeMillis());
 		System.out.println(startTime+"开始执行定时爬虫任务！！！");
 		int size = 0;
@@ -41,15 +41,16 @@ public class ToTimer {
 			log.info(startTime+"开始执行Seebug的爬虫任务！");
 			Spider.create(new SeebugProcessor()).
 			addUrl("https://www.seebug.org/vuldb/vulnerabilities").
-			thread(5).run();
+			thread(1).run();
 		} catch (Exception e) {
 			log.error("执行Seebug的Spider.create失败！！", e);
 		}
 		//把剩下的不足1000的那部分保存到数据库
+		int successTotal = SeebugProcessor.getSuccessTotal();//保存到数据库的成功条数
 		try {
 			List<Seebug> seebugList = SeebugProcessor.getSeebugList();
 			if(seebugList != null){
-				new SeebugServiceImpl().addSeebugBatch(seebugList);
+				successTotal += new SeebugServiceImpl().addSeebugBatch(seebugList);
 				seebugList.clear();
 				log.error("执行保存剩余数据到数据库成功！！");
 			}
@@ -58,11 +59,11 @@ public class ToTimer {
 		}
 		long totalTome = (System.currentTimeMillis()-startTimeMil)/1000;
 		size = SeebugProcessor.getSize();
-		log.info("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已成功保存到数据库"+SeebugProcessor.getSuccessTotal()+"条，请查收！");
-        System.out.println("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已保存到数据库"+SeebugProcessor.getSuccessTotal()+"条，请查收！");
+		log.info("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已成功保存到数据库"+successTotal+"条，请查收！");
+        System.out.println("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已保存到数据库"+successTotal+"条，请查收！");
 	}
 	
-	@Scheduled(cron = "0 9 11 * * ? ")
+	@Scheduled(cron = "0 38 11 9 * ? ")
 	public void runCnvd(){
 		Timestamp startTime = new Timestamp(System.currentTimeMillis());
 		System.out.println(startTime+"开始执行定时爬虫任务！！！");
@@ -96,7 +97,7 @@ public class ToTimer {
         System.out.println("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已保存到数据库，请查收！");
 	}
 	
-	@Scheduled(cron = "0 50 17 * * ? ")
+	@Scheduled(cron = "0 50 17 9 * ? ")
 	public void runCnnvd(){
 		Timestamp startTime = new Timestamp(System.currentTimeMillis());
 		System.out.println(startTime+"开始执行定时爬虫任务！！！");
@@ -114,10 +115,11 @@ public class ToTimer {
 			log.error("执行Cnnvd的Spider.create失败！！", e);
 		}
 		//把剩下的不足1000的那部分保存到数据库
+		int successTotal = CnnvdProcessor.getSuccessTotal();//保存到数据库的成功条数
 		try {
 			List<Cnnvd> cnnvdList = CnnvdProcessor.getCnnvdList();
 			if(cnnvdList != null){
-				new CnnvdServiceImpl().addCnnvdBatch(cnnvdList);
+				successTotal += new CnnvdServiceImpl().addCnnvdBatch(cnnvdList);
 				cnnvdList.clear();
 				log.error("执行保存剩余数据到数据库成功！！");
 			}
@@ -126,8 +128,8 @@ public class ToTimer {
 		}
 		long totalTome = (System.currentTimeMillis()-startTimeMil)/1000;
 		size = CnnvdProcessor.getSize();
-		log.info("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已保存到数据库"+CnnvdProcessor.getSuccessTotal()+"条，请查收！");
-        System.out.println("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已成功保存到数据库"+CnnvdProcessor.getSuccessTotal()+"条，请查收！");
+		log.info("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已保存到数据库"+successTotal+"条，请查收！");
+        System.out.println("【本次爬虫结束】,爬虫任务开始于"+startTime+",结束于"+new Timestamp(System.currentTimeMillis())+"。共抓取" + size + "篇文章,耗时约" + totalTome + "秒,已成功保存到数据库"+successTotal+"条，请查收！");
 	}
 
 }

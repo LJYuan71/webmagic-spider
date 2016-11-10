@@ -37,6 +37,8 @@ public class Seebug implements Serializable {
 	private String affectsComponent;
 	//漏洞概要
 	private String bugOutline;
+	//参考链接
+	private String referenceURL;
 	public String getBugId() {
 		return bugId;
 	}
@@ -127,13 +129,19 @@ public class Seebug implements Serializable {
 	public void setBugOutline(String bugOutline) {
 		this.bugOutline = bugOutline;
 	}
+	public String getReferenceURL() {
+		return referenceURL;
+	}
+	public void setReferenceURL(String referenceURL) {
+		this.referenceURL = referenceURL;
+	}
 	@Override
 	public String toString() {
 		return "Seebug [bugId=" + bugId + ", bugName=" + bugName + ", bugFindDate=" + bugFindDate + ", bugSubmitDate="
 				+ bugSubmitDate + ", bugLevel=" + bugLevel + ", bugType=" + bugType + ", cveId=" + cveId + ", cnnvdId="
 				+ cnnvdId + ", cnvdId=" + cnvdId + ", bugAuthor=" + bugAuthor + ", bugSubmitter=" + bugSubmitter
 				+ ", bugDescribe=" + bugDescribe + ", zoomEyeDork=" + zoomEyeDork + ", affectsComponent="
-				+ affectsComponent + ", bugOutline=" + bugOutline + "]";
+				+ affectsComponent + ", bugOutline=" + bugOutline + ", referenceURL=" + referenceURL + "]";
 	}
 	
 	

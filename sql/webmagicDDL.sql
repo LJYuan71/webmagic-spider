@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50551
 File Encoding         : 65001
 
-Date: 2016-11-08 09:09:47
+Date: 2016-11-10 16:07:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `cnnvd` (
   `effectentity` varchar(255) DEFAULT NULL COMMENT '影响实体',
   `timedate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '数据库入库时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87342 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87353 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cnvd
@@ -73,21 +73,22 @@ CREATE TABLE `cnvd` (
 -- ----------------------------
 DROP TABLE IF EXISTS `seebug`;
 CREATE TABLE `seebug` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `bugid` varchar(255) NOT NULL,
-  `bugname` varchar(255) DEFAULT NULL,
-  `bugfinddate` varchar(255) DEFAULT NULL,
-  `bugsubmitdate` varchar(255) DEFAULT NULL,
-  `buglevel` int(11) DEFAULT NULL,
-  `bugtype` varchar(255) DEFAULT NULL,
-  `cveid` varchar(255) DEFAULT NULL,
-  `cnnvdid` varchar(255) DEFAULT NULL,
-  `cnvdid` varchar(255) DEFAULT NULL,
-  `bugauthor` varchar(255) DEFAULT NULL,
-  `bugsubmitter` varchar(255) DEFAULT NULL,
-  `bugoutline` text,
-  `zoomeyedork` varchar(255) DEFAULT NULL,
-  `affectscomponent` varchar(255) DEFAULT NULL,
-  `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `bugid` varchar(255) NOT NULL COMMENT '漏洞编号',
+  `bugname` varchar(255) DEFAULT NULL COMMENT '漏洞名称',
+  `bugfinddate` varchar(255) DEFAULT NULL COMMENT '漏洞发现时间',
+  `bugsubmitdate` varchar(255) DEFAULT NULL COMMENT '漏洞提交时间',
+  `buglevel` int(11) DEFAULT NULL COMMENT '漏洞等级',
+  `bugtype` varchar(255) DEFAULT NULL COMMENT '漏洞类型',
+  `cveid` varchar(255) DEFAULT NULL COMMENT 'cve编号',
+  `cnnvdid` varchar(255) DEFAULT NULL COMMENT 'cnnvd编号',
+  `cnvdid` varchar(255) DEFAULT NULL COMMENT 'cnvd编号',
+  `bugauthor` varchar(255) DEFAULT NULL COMMENT '漏洞作者',
+  `bugsubmitter` varchar(255) DEFAULT NULL COMMENT '漏洞提交人',
+  `bugdescribe` text COMMENT '漏洞描述',
+  `zoomeyedork` varchar(255) DEFAULT NULL COMMENT 'ZoomEye Dork',
+  `affectscomponent` varchar(255) DEFAULT NULL COMMENT '影响组件',
+  `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '提交数据库时间',
+  `referenceurl` text COMMENT '参考链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5175 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14535 DEFAULT CHARSET=utf8;

@@ -16,9 +16,11 @@
 		<result property="cnvdId" column="cnvdid" jdbcType="VARCHAR"/>
 		<result property="bugAuthor" column="bugauthor" jdbcType="VARCHAR"/>
 		<result property="bugSubmitter" column="bugsubmitter" jdbcType="VARCHAR"/>
-		<result property="bugOutline" column="bugoutline" jdbcType="LONGVARCHAR"/>
+		<result property="bugDescribe" column="bugdescribe" jdbcType="LONGVARCHAR"/>
 		<result property="zoomEyeDork" column="zoomeyedork" jdbcType="VARCHAR"/>
 		<result property="affectsComponent" column="affectscomponent" jdbcType="VARCHAR"/>
+		<result property="referenceURL" column="referenceurl" jdbcType="LONGVARCHAR"/>
+		<result property="datetime" column="datetime" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	
 	<!-- 批量插入操作 -->
@@ -26,7 +28,9 @@
 		<selectKey resultType="long" keyProperty="id" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO `webmagic`.`seebug` (`bugid`,`bugname`,`bugfinddate`,`bugsubmitdate`,`buglevel`,`bugtype`,`cveid`,`cnnvdid`,`cnvdid`,`bugauthor`,`bugsubmitter`,`bugoutline` ,`zoomeyedork`,`affectscomponent`) 
+		INSERT INTO `webmagic`.`seebug` (`bugid`,`bugname`,`bugfinddate`,
+		`bugsubmitdate`,`buglevel`,`bugtype`,`cveid`,`cnnvdid`,`cnvdid`,
+		`bugauthor`,`bugsubmitter`,`bugdescribe` ,`zoomeyedork`,`affectscomponent`,`referenceurl`) 
 		VALUES 
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
@@ -41,9 +45,10 @@
 			#{item.cnvdId},
 			#{item.bugAuthor},
 			#{item.bugSubmitter},
-			#{item.bugOutline},
+			#{item.bugDescribe},
 			#{item.zoomEyeDork},
-			#{item.affectsComponent}
+			#{item.affectsComponent},
+			#{item.referenceURL}
 			)
 		</foreach>
 	</insert>
