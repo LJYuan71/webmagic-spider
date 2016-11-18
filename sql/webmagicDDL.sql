@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50551
 File Encoding         : 65001
 
-Date: 2016-11-10 16:07:42
+Date: 2016-11-18 09:02:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,10 +85,10 @@ CREATE TABLE `seebug` (
   `cnvdid` varchar(255) DEFAULT NULL COMMENT 'cnvd编号',
   `bugauthor` varchar(255) DEFAULT NULL COMMENT '漏洞作者',
   `bugsubmitter` varchar(255) DEFAULT NULL COMMENT '漏洞提交人',
-  `bugdescribe` text COMMENT '漏洞描述',
+  `bugdescribe` mediumtext COMMENT '漏洞描述',
   `zoomeyedork` varchar(255) DEFAULT NULL COMMENT 'ZoomEye Dork',
   `affectscomponent` varchar(255) DEFAULT NULL COMMENT '影响组件',
   `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '提交数据库时间',
   `referenceurl` text COMMENT '参考链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14535 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51734 DEFAULT CHARSET=utf8;

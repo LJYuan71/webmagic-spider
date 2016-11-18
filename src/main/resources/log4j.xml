@@ -44,7 +44,7 @@
     
     <!-- 对activexAppender的输出屏蔽指定包日志-->
     <logger name="us.codecraft" additivity="false">     
-        <level value="off" />     
+        <level value="WARN" />     
     </logger>
     	
     <root>

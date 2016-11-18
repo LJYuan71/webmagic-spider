@@ -6,6 +6,6 @@ import org.seebug.pojo.Seebug;
 
 public interface SeebugService {
 	
-	public int addSeebugBatch(List<Seebug> seebugs);
+	public int addSeebugBatch(List<Seebug> seebugs) throws Exception;
 
 }

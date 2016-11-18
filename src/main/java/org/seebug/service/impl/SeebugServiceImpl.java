@@ -1,8 +1,6 @@
 package org.seebug.service.impl;
 
 import java.util.List;
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.seebug.dao.SeebugDao;
 import org.seebug.pojo.Seebug;
@@ -11,15 +9,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import sun.util.logging.resources.logging;
-
 @Service
 public class SeebugServiceImpl implements SeebugService {
 	
 	private static final Logger log = Logger.getLogger(SeebugServiceImpl.class);
 	
 	@Override
-	public int addSeebugBatch(List<Seebug> seebugs) {
+	public int addSeebugBatch(List<Seebug> seebugs) throws Exception{
 		ApplicationContext ctx=null;
 		int total = 0;
 		try {

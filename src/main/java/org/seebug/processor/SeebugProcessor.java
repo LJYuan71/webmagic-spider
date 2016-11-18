@@ -8,10 +8,6 @@ import org.apache.log4j.Logger;
 import org.seebug.pojo.Seebug;
 import org.seebug.service.impl.SeebugServiceImpl;
 
-import com.sun.jmx.snmp.Timestamp;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import io.webmagic.common.httpproxy.HttpProxy;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -21,7 +17,6 @@ public class SeebugProcessor implements PageProcessor{
 	
 	private static final Logger log = Logger.getLogger(SeebugProcessor.class);
 	
-	private static HttpProxy httpProxy = new HttpProxy();
 	private Site site = Site.me().setCycleRetryTimes(5).setRetryTimes(5).setSleepTime(1000).setTimeOut(30 * 60 * 1000)
 			//添加cookie之前一定要先设置主机地址，否则cookie信息不生效
 			.setDomain("www.seebug.org")
@@ -47,15 +42,11 @@ public class SeebugProcessor implements PageProcessor{
 	private static int size = 0;// 共抓取到的文章数量
 	private static int successTotal = 0;
     private static List<Seebug> seebugList = new ArrayList<Seebug>();
-    private static int httpHostSize = new HttpProxy().getHttpProxyList().size();
-    private static int hostneedle = 0;
-    private static List<HttpHost> HttpHost = new HttpProxy().getHttpHost();
     private static long startMill = System.currentTimeMillis();
     private static int AA = 0;
 
 	@Override
 	public void process(Page page) {
-		long start= System.currentTimeMillis();
 		//分页列表页URL
     	List<String> urls = page.getHtml().css("ul.pagination").links().all();
     	page.addTargetRequests(urls);
@@ -69,21 +60,17 @@ public class SeebugProcessor implements PageProcessor{
     	
         page.addTargetRequests(page.getHtml().xpath("//div[@class='table-responsive']//tr//td[@class='vul-title-wrapper']/a/@href").all());
         long end = (System.currentTimeMillis() - startMill)/1000;
-        System.out.println("end==="+end);
         if(end >= 20 || AA==15 ){
-        	System.out.println("end="+new Timestamp(System.currentTimeMillis()));
         	try {
 				Thread.sleep(60*1000);
 				startMill = System.currentTimeMillis();
 				AA=0;
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
         Seebug seebug = new Seebug();
         Html html = page.getHtml();
-        //log.info("HTML=="+html);
         seebug.setBugName(html.xpath("//h1[@id='j-vul-title']/text()").toString());
         seebug.setBugId(html.xpath("//section[@id='j-vul-basic-info']//div[@class='row']//dl/dd[@class='text-gray']/a/text()").toString());
         seebug.setBugFindDate(html.xpath("//section[@id='j-vul-basic-info']//div[@class='col-md-4'][1]//dl[2]/dd/text()").toString());
@@ -128,7 +115,7 @@ public class SeebugProcessor implements PageProcessor{
         }else {
         	synchronized(this){
         	seebugList.add(seebug);
-        	if(seebugList.size() == 20){
+        	if(seebugList.size() == 60){
         		int total = -1;
         		try {
         			total = new SeebugServiceImpl().addSeebugBatch(seebugList);
