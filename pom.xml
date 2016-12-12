@@ -4,7 +4,10 @@
   <artifactId>webmagic.spider</artifactId>
   <version>0.0.1</version>
   <packaging>war</packaging>
-
+  <properties>
+    <!-- 全局编码格式 -->
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+  </properties>
 	<dependencies>
 		<dependency>
 			<groupId>us.codecraft</groupId>
